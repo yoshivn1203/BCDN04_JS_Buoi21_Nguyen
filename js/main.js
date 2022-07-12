@@ -1,14 +1,6 @@
 getEle = (id) => {
   return document.getElementById(id);
 };
-//   id="tknv"
-//   id="name"
-//   id="email"
-//   id="password"
-//   id="datepicker"
-//   id="luongCB"
-//   id="chucvu"
-//   id="gioLam"
 
 let danhSach = [];
 
@@ -24,6 +16,9 @@ taoTable = (danhSach) => {
           <td>${element.position}</td>
           <td>${element.salary}</td>
           <td>${element.quality}</td>
+          <td><button class="btn btn-danger" onclick ="deleteNv('${element.account}')">
+          Xóa
+        </button></td>
           </tr>`)
   );
   getEle('tableDanhSach').innerHTML = tableContent;
@@ -33,7 +28,6 @@ window.onload = () => {
   danhSach = localStorage.getItem('danhSach')
     ? JSON.parse(localStorage.getItem('danhSach'))
     : danhSach;
-
   taoTable(danhSach);
 };
 
@@ -58,15 +52,29 @@ btnThemNV = () => {
     salary: getEle('luongCB').value,
     quality: 'gioi',
   };
-  if (
-    checkEmpty(nhanVien.account, 'tbTKNV', 'tài khoản') ||
-    checkEmpty(nhanVien.name, 'tbTen', 'tên') ||
-    checkEmpty(nhanVien.email, 'tbEmail', 'email')
-  ) {
+  a = checkEmpty(nhanVien.account, 'tbTKNV', 'tài khoản');
+  b = checkEmpty(nhanVien.name, 'tbTen', 'tên');
+  c = checkEmpty(nhanVien.email, 'tbEmail', 'email');
+  d = checkEmpty(getEle('password').value, 'tbMatKhau', 'mật khẩu');
+  e = checkEmpty(nhanVien.startDate, 'tbNgay', 'ngày làm');
+  f = checkEmpty(nhanVien.salary, 'tbLuongCB', 'lương cơ bản');
+  g = checkEmpty(getEle('gioLam').value, 'tbGiolam', 'giờ làm');
+
+  if (a || b || c || d || e || f || g) {
     return;
   }
 
   danhSach.push(nhanVien);
   taoTable(danhSach);
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
+};
+
+deleteNv = (account) => {
+  for (let i = 0; i < danhSach.length; i++) {
+    if (danhSach[i].account == account) {
+      danhSach.splice(i, 1);
+    }
+  }
+  localStorage.setItem('danhSach', JSON.stringify(danhSach));
+  location.reload();
 };

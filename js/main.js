@@ -1,45 +1,45 @@
 getEle = (id) => {
   return document.getElementById(id);
 };
-
-let obj = [
-  {
-    account: '0001',
-    name: 'nhan vien 1',
-    email: '123@mail.com',
-    startDate: '1/2/1999',
-    position: 'nhan vien',
-    salary: '1233121',
-    quality: 'tot',
-  },
-  {
-    account: '0002',
-    name: 'nhan vien 2',
-    email: '123@mail.com',
-    startDate: '1/2/1999',
-    position: 'nhan vien',
-    salary: '1233121',
-    quality: 'tot',
-  },
-];
+//   id="tknv"
+//   id="name"
+//   id="email"
+//   id="password"
+//   id="datepicker"
+//   id="luongCB"
+//   id="chucvu"
+//   id="gioLam"
 
 let tableContent = '';
-obj.map(
-  (element) =>
-    (tableContent += `<tr>
-<td>${element.account}</td>
-<td>${element.name}</td>
-<td>${element.email}</td>
-<td>${element.startDate}</td>
-<td>${element.position}</td>
-<td>${element.salary}</td>
-<td>${element.quality}</td>
-
-</tr>`)
-);
-var myJsonString = JSON.stringify(obj);
-console.log(tableContent);
 
 btnThemNV = () => {
+  let danhSach = [];
+  let nhanVien = {
+    account: getEle('tknv').value,
+    name: getEle('name').value,
+    email: getEle('email').value,
+    startDate: getEle('datepicker').value,
+    position: getEle('chucvu').value,
+    salary: getEle('luongCB').value,
+    quality: 'gioi',
+  };
+  danhSach.push(nhanVien);
+
+  danhSach.map(
+    (element) =>
+      (tableContent += `<tr>
+    <td>${element.account}</td>
+    <td>${element.name}</td>
+    <td>${element.email}</td>
+    <td>${element.startDate}</td>
+    <td>${element.position}</td>
+    <td>${element.salary}</td>
+    <td>${element.quality}</td>
+
+    </tr>`)
+  );
+  console.log(tableContent);
+
   getEle('tableDanhSach').innerHTML = tableContent;
+  nhanVien = {};
 };

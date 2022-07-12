@@ -37,6 +37,17 @@ window.onload = () => {
   taoTable(danhSach);
 };
 
+checkEmpty = (text, id, doiTuong) => {
+  if (text == '') {
+    getEle(id).innerHTML = `Không thể để trống ${doiTuong}`;
+    getEle(id).style.display = 'block';
+    return true;
+  } else {
+    getEle(id).style.display = 'none';
+    return false;
+  }
+};
+
 btnThemNV = () => {
   let nhanVien = {
     account: getEle('tknv').value,
@@ -47,8 +58,15 @@ btnThemNV = () => {
     salary: getEle('luongCB').value,
     quality: 'gioi',
   };
+  if (
+    checkEmpty(nhanVien.account, 'tbTKNV', 'tài khoản') ||
+    checkEmpty(nhanVien.name, 'tbTen', 'tên') ||
+    checkEmpty(nhanVien.email, 'tbEmail', 'email')
+  ) {
+    return;
+  }
+
   danhSach.push(nhanVien);
   taoTable(danhSach);
-
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
 };

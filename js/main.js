@@ -10,10 +10,34 @@ getEle = (id) => {
 //   id="chucvu"
 //   id="gioLam"
 
-let tableContent = '';
+let danhSach = [];
+
+taoTable = (danhSach) => {
+  let tableContent = '';
+  danhSach.map(
+    (element) =>
+      (tableContent += `<tr>
+          <td>${element.account}</td>
+          <td>${element.name}</td>
+          <td>${element.email}</td>
+          <td>${element.startDate}</td>
+          <td>${element.position}</td>
+          <td>${element.salary}</td>
+          <td>${element.quality}</td>
+          </tr>`)
+  );
+  getEle('tableDanhSach').innerHTML = tableContent;
+};
+
+window.onload = () => {
+  danhSach = localStorage.getItem('danhSach')
+    ? JSON.parse(localStorage.getItem('danhSach'))
+    : danhSach;
+
+  taoTable(danhSach);
+};
 
 btnThemNV = () => {
-  let danhSach = [];
   let nhanVien = {
     account: getEle('tknv').value,
     name: getEle('name').value,
@@ -24,22 +48,7 @@ btnThemNV = () => {
     quality: 'gioi',
   };
   danhSach.push(nhanVien);
+  taoTable(danhSach);
 
-  danhSach.map(
-    (element) =>
-      (tableContent += `<tr>
-    <td>${element.account}</td>
-    <td>${element.name}</td>
-    <td>${element.email}</td>
-    <td>${element.startDate}</td>
-    <td>${element.position}</td>
-    <td>${element.salary}</td>
-    <td>${element.quality}</td>
-
-    </tr>`)
-  );
-  console.log(tableContent);
-
-  getEle('tableDanhSach').innerHTML = tableContent;
-  nhanVien = {};
+  localStorage.setItem('danhSach', JSON.stringify(danhSach));
 };

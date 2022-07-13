@@ -31,29 +31,6 @@ window.onload = () => {
   taoTable(danhSach);
 };
 
-checkEmpty = (text, id, doiTuong) => {
-  if (text == '') {
-    getEle(id).innerHTML = `Không thể để trống ${doiTuong}`;
-    getEle(id).style.display = 'block';
-    return true;
-  } else {
-    getEle(id).style.display = 'none';
-    return false;
-  }
-};
-
-checkAccountExist = (account) => {
-  for (let i = 0; i < danhSach.length; i++) {
-    if (danhSach[i].account == account) {
-      getEle('tbTKNV').innerHTML = 'Tài khoản đã tồn tại';
-      getEle('tbTKNV').style.display = 'block';
-      return true;
-    }
-  }
-  getEle('tbTKNV').style.display = 'none';
-  return false;
-};
-
 btnThemNV = () => {
   let nhanVien = {
     account: getEle('tknv').value,
@@ -64,16 +41,8 @@ btnThemNV = () => {
     salary: getEle('luongCB').value,
     quality: 'gioi',
   };
-  let a = checkEmpty(nhanVien.account, 'tbTKNV', 'tài khoản');
-  let b = checkEmpty(nhanVien.name, 'tbTen', 'tên');
-  let c = checkEmpty(nhanVien.email, 'tbEmail', 'email');
-  let d = checkEmpty(getEle('password').value, 'tbMatKhau', 'mật khẩu');
-  let e = checkEmpty(nhanVien.startDate, 'tbNgay', 'ngày làm');
-  let f = checkEmpty(nhanVien.salary, 'tbLuongCB', 'lương cơ bản');
-  let g = checkEmpty(getEle('gioLam').value, 'tbGiolam', 'giờ làm');
-  let h = checkAccountExist(nhanVien.account);
 
-  if (a || b || c || d || e || f || g || h) {
+  if (validateNV()) {
     return;
   }
 

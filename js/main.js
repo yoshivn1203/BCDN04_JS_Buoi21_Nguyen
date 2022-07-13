@@ -64,14 +64,14 @@ btnThemNV = () => {
     salary: getEle('luongCB').value,
     quality: 'gioi',
   };
-  a = checkEmpty(nhanVien.account, 'tbTKNV', 'tài khoản');
-  b = checkEmpty(nhanVien.name, 'tbTen', 'tên');
-  c = checkEmpty(nhanVien.email, 'tbEmail', 'email');
-  d = checkEmpty(getEle('password').value, 'tbMatKhau', 'mật khẩu');
-  e = checkEmpty(nhanVien.startDate, 'tbNgay', 'ngày làm');
-  f = checkEmpty(nhanVien.salary, 'tbLuongCB', 'lương cơ bản');
-  g = checkEmpty(getEle('gioLam').value, 'tbGiolam', 'giờ làm');
-  h = checkAccountExist(nhanVien.account);
+  let a = checkEmpty(nhanVien.account, 'tbTKNV', 'tài khoản');
+  let b = checkEmpty(nhanVien.name, 'tbTen', 'tên');
+  let c = checkEmpty(nhanVien.email, 'tbEmail', 'email');
+  let d = checkEmpty(getEle('password').value, 'tbMatKhau', 'mật khẩu');
+  let e = checkEmpty(nhanVien.startDate, 'tbNgay', 'ngày làm');
+  let f = checkEmpty(nhanVien.salary, 'tbLuongCB', 'lương cơ bản');
+  let g = checkEmpty(getEle('gioLam').value, 'tbGiolam', 'giờ làm');
+  let h = checkAccountExist(nhanVien.account);
 
   if (a || b || c || d || e || f || g || h) {
     return;

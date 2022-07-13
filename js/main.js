@@ -16,8 +16,10 @@ taoTable = (danhSach) => {
           <td>${element.position}</td>
           <td>${element.salary}</td>
           <td>${element.quality}</td>
-          <td><button class="btn btn-danger" onclick ="deleteNv('${element.account}')">
+          <td><button class="btn btn-danger mx-1" onclick ="deleteNv('${element.account}')">
           Xóa
+        </button><button class="btn btn-success" onclick ="editNv('${element.account}')">
+          Sửa
         </button></td>
           </tr>`)
   );
@@ -38,13 +40,16 @@ btnThemNV = () => {
     email: getEle('email').value,
     startDate: getEle('datepicker').value,
     position: getEle('chucvu').value,
-    salary: getEle('luongCB').value,
-    quality: 'gioi',
+    salary: 0,
+    quality: '',
   };
 
   if (validateNV()) {
     return;
   }
+
+  nhanVien.salary = tinhLuong(nhanVien.position, getEle('luongCB').value);
+  nhanVien.quality = xepLoaiNv(Number(getEle('gioLam').value));
 
   danhSach.push(nhanVien);
   taoTable(danhSach);
@@ -85,4 +90,29 @@ deleteNv = (account) => {
       );
     }
   });
+};
+
+editNv = (account) => {};
+
+tinhLuong = (chucVu, luongCB) => {
+  switch (chucVu) {
+    case 'Sếp':
+      return luongCB * 3;
+    case 'Trưởng phòng':
+      return luongCB * 2;
+    case 'Nhân viên':
+      return luongCB;
+  }
+};
+
+xepLoaiNv = (gioLam) => {
+  return gioLam >= 192
+    ? 'Xuất sắc'
+    : gioLam < 192 && gioLam >= 176
+    ? 'Giỏi'
+    : gioLam < 176 && gioLam >= 160
+    ? 'Khá'
+    : gioLam < 160
+    ? 'Trung bình'
+    : '';
 };

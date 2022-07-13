@@ -42,6 +42,18 @@ checkEmpty = (text, id, doiTuong) => {
   }
 };
 
+checkAccountExist = (account) => {
+  for (let i = 0; i < danhSach.length; i++) {
+    if (danhSach[i].account == account) {
+      getEle('tbTKNV').innerHTML = 'Tài khoản đã tồn tại';
+      getEle('tbTKNV').style.display = 'block';
+      return true;
+    }
+  }
+  getEle('tbTKNV').style.display = 'none';
+  return false;
+};
+
 btnThemNV = () => {
   let nhanVien = {
     account: getEle('tknv').value,
@@ -59,25 +71,34 @@ btnThemNV = () => {
   e = checkEmpty(nhanVien.startDate, 'tbNgay', 'ngày làm');
   f = checkEmpty(nhanVien.salary, 'tbLuongCB', 'lương cơ bản');
   g = checkEmpty(getEle('gioLam').value, 'tbGiolam', 'giờ làm');
+  h = checkAccountExist(nhanVien.account);
 
-  if (a || b || c || d || e || f || g) {
+  if (a || b || c || d || e || f || g || h) {
     return;
   }
 
   danhSach.push(nhanVien);
   taoTable(danhSach);
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
+
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Thêm nhân viên thành công',
+    showConfirmButton: false,
+    timer: 1500,
+  });
 };
 
 deleteNv = (account) => {
   Swal.fire({
     title: 'Are you sure?',
-    text: "You won't be able to revert this!",
+    text: `Tài khoản ${account} sẽ bị xóa và không thể phục hồi`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!',
+    confirmButtonText: 'Confirm',
   }).then((result) => {
     if (result.isConfirmed) {
       for (let i = 0; i < danhSach.length; i++) {
@@ -86,7 +107,7 @@ deleteNv = (account) => {
         }
       }
       localStorage.setItem('danhSach', JSON.stringify(danhSach));
-      Swal.fire('Deleted!', 'Your file has been deleted.', 'success').then(
+      Swal.fire('Deleted!', `Tài khoản ${account} đã bị xóa`, 'success').then(
         (result) => {
           if (result.isConfirmed) {
             window.location.reload();

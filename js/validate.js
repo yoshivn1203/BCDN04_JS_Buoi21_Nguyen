@@ -138,9 +138,9 @@ validateNV = () => {
   let validateAccount = checkEmpty('tknv', 'tbTKNV', 'Tài khoản');
   if (!validateAccount) {
     validateAccount = checkLenght('tknv', 'tbTKNV', 'Tài khoản', 4, 6);
-    if (!validateAccount) {
-      validateAccount = checkAccountExist('tknv');
-    }
+    // if (!validateAccount) {
+    //   validateAccount = checkAccountExist('tknv');
+    // }
   }
 
   let validateName = checkEmpty('name', 'tbTen', 'Tên');

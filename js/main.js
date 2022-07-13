@@ -18,7 +18,8 @@ taoTable = (danhSach) => {
           <td>${element.quality}</td>
           <td><button class="btn btn-danger mx-1" onclick ="deleteNv('${element.account}')">
           Xóa
-        </button><button class="btn btn-success" onclick ="editNv('${element.account}')">
+        </button><button class="btn btn-success" data-toggle="modal"
+        data-target="#myModal" onclick ="editNv('${element.account}')">
           Sửa
         </button></td>
           </tr>`)
@@ -92,7 +93,37 @@ deleteNv = (account) => {
   });
 };
 
-editNv = (account) => {};
+btnCapNhat = () => {
+  if (validateNV()) {
+    return;
+  }
+  let j;
+  let account = getEle('tknv').value;
+  for (let i = 0; i < danhSach.length; i++) {
+    if (danhSach[i].account == account) {
+      j = i;
+      break;
+    }
+  }
+  console.log(j);
+  if (j == undefined) {
+    getEle('tbTKNV').innerHTML = 'Tài khoản không tồn tại';
+    getEle('tbTKNV').style.display = 'block';
+  } else {
+    danhSach[j].name = getEle('name').value;
+    danhSach[j].email = getEle('email').value;
+    danhSach[j].startDate = getEle('datepicker').value;
+    danhSach[j].position = getEle('chucvu').value;
+    danhSach[j].salary = tinhLuong(
+      getEle('chucvu').value,
+      getEle('luongCB').value
+    );
+    danhSach[j].quality = xepLoaiNv(Number(getEle('gioLam').value));
+    getEle('tbTKNV').style.display = 'none';
+    taoTable(danhSach);
+    localStorage.setItem('danhSach', JSON.stringify(danhSach));
+  }
+};
 
 tinhLuong = (chucVu, luongCB) => {
   switch (chucVu) {

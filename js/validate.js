@@ -14,7 +14,7 @@ checkAccountExist = (idField) => {
   let account = getEle(idField).value;
 
   for (let i = 0; i < danhSach.length; i++) {
-    if (danhSach[i].account == account) {
+    if (danhSach[i].tk == account) {
       getEle('tbTKNV2').innerHTML = 'Tài khoản đã tồn tại';
       getEle('tbTKNV2').style.display = 'block';
       return true;

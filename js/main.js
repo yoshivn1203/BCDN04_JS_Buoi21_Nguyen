@@ -45,7 +45,8 @@ btnThemNV = () => {
     quality: '',
   };
 
-  if (validateNV()) {
+  checkAccountExist('tknv');
+  if (validateNV() || checkAccountExist('tknv')) {
     return;
   }
 
@@ -94,6 +95,7 @@ deleteNv = (account) => {
 };
 
 btnCapNhat = () => {
+  getEle('tbTKNV2').style.display = 'none';
   if (validateNV()) {
     return;
   }
@@ -122,6 +124,13 @@ btnCapNhat = () => {
     getEle('tbTKNV').style.display = 'none';
     taoTable(danhSach);
     localStorage.setItem('danhSach', JSON.stringify(danhSach));
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Cập nhật nhân viên thành công',
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 };
 

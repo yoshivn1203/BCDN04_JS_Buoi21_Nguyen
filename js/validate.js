@@ -15,12 +15,12 @@ checkAccountExist = (idField) => {
 
   for (let i = 0; i < danhSach.length; i++) {
     if (danhSach[i].account == account) {
-      getEle('tbTKNV').innerHTML = 'Tài khoản đã tồn tại';
-      getEle('tbTKNV').style.display = 'block';
+      getEle('tbTKNV2').innerHTML = 'Tài khoản đã tồn tại';
+      getEle('tbTKNV2').style.display = 'block';
       return true;
     }
   }
-  getEle('tbTKNV').style.display = 'none';
+  getEle('tbTKNV2').style.display = 'none';
   return false;
 };
 

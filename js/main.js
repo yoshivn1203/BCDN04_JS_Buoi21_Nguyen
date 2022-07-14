@@ -134,6 +134,23 @@ btnCapNhat = () => {
   }
 };
 
+btnTimNV = () => {
+  let searchValue = getEle('searchName').value.toLowerCase();
+  let danhSachXepLoai = [];
+  if (searchValue == '') {
+    danhSachXepLoai = danhSach;
+  } else {
+    danhSach.map((element) => {
+      if (element.quality.toLowerCase() == searchValue) {
+        danhSachXepLoai.push(element);
+      }
+    });
+  }
+  taoTable(danhSachXepLoai);
+  console.log(searchValue);
+  console.log(danhSachXepLoai);
+};
+
 tinhLuong = (chucVu, luongCB) => {
   switch (chucVu) {
     case 'Sếp':

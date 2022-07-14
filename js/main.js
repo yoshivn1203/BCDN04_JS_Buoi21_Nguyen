@@ -39,7 +39,9 @@ btnThemNV = () => {
     account: getEle('tknv').value,
     name: getEle('name').value,
     email: getEle('email').value,
+    password: getEle('password').value,
     startDate: getEle('datepicker').value,
+    luongCB: getEle('luongCB').value,
     position: getEle('chucvu').value,
     salary: 0,
     quality: '',
@@ -92,6 +94,29 @@ deleteNv = (account) => {
       );
     }
   });
+};
+
+editNv = (account) => {
+  let objData;
+  for (let i = 0; i < danhSach.length; i++) {
+    if (danhSach[i].account == account) {
+      objData = { ...danhSach[i] };
+    }
+  }
+  var form = $('#formNV');
+
+  for (var key in objData) {
+    var selector = `input[name="${key}"], textarea[name="${key}"]`;
+    var input = $(form).find(selector);
+    input.val(objData[key]);
+  }
+  console.log(objData);
+
+  // const form = document.querySelector('#formNV');
+  // const formData = new FormData(form);
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
 };
 
 btnCapNhat = () => {

@@ -117,13 +117,11 @@ btnEditNv = (tk) => {
 };
 
 btnCapNhat = () => {
-  if (validateNV()) {
-    return;
-  }
+  if (validateNV()) return;
+
   let j;
-  let tk = getEle('tknv').value;
   for (let i = 0; i < danhSach.length; i++) {
-    if (danhSach[i].tk == tk) {
+    if (danhSach[i].tk == getEle('tknv').value) {
       j = i;
       break;
     }
@@ -132,6 +130,7 @@ btnCapNhat = () => {
     getEle('tbTKNV').innerHTML = 'Tài khoản không tồn tại';
     getEle('tbTKNV').style.display = 'block';
   } else {
+    getEle('tbTKNV').style.display = 'none';
     danhSach[j].name = getEle('name').value;
     danhSach[j].email = getEle('email').value;
     danhSach[j].ngaylam = getEle('datepicker').value;
@@ -141,7 +140,6 @@ btnCapNhat = () => {
       getEle('luongCB').value
     );
     danhSach[j].xepLoai = xepLoaiNv(Number(getEle('gioLam').value));
-    getEle('tbTKNV').style.display = 'none';
     taoTable(danhSach);
     localStorage.setItem('danhSach', JSON.stringify(danhSach));
     Swal.fire({

@@ -11,16 +11,16 @@ checkEmpty = (idField, id, doiTuong) => {
 };
 
 checkAccountExist = (idField) => {
-  let account = getEle(idField).value;
+  let tk = getEle(idField).value;
 
   for (let i = 0; i < danhSach.length; i++) {
-    if (danhSach[i].tk == account) {
-      getEle('tbTKNV2').innerHTML = 'Tài khoản đã tồn tại';
-      getEle('tbTKNV2').style.display = 'block';
+    if (danhSach[i].tk == tk) {
+      getEle('tbTKNV').innerHTML = 'Tài khoản đã tồn tại';
+      getEle('tbTKNV').style.display = 'block';
       return true;
     }
   }
-  getEle('tbTKNV2').style.display = 'none';
+  getEle('tbTKNV').style.display = 'none';
   return false;
 };
 
@@ -138,9 +138,6 @@ validateNV = () => {
   let validateAccount = checkEmpty('tknv', 'tbTKNV', 'Tài khoản');
   if (!validateAccount) {
     validateAccount = checkLenght('tknv', 'tbTKNV', 'Tài khoản', 4, 6);
-    // if (!validateAccount) {
-    //   validateAccount = checkAccountExist('tknv');
-    // }
   }
 
   let validateName = checkEmpty('name', 'tbTen', 'Tên');

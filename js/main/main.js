@@ -14,14 +14,14 @@ taoTable = (danhSach) => {
           <td>${element.email}</td>
           <td>${element.ngaylam}</td>
           <td>${element.chucvu}</td>
-          <td>${element.salary}</td>
-          <td>${element.quality}</td>
-          <td><button class="btn btn-danger mx-1" onclick ="deleteNv('${element.tk}')">
-          Xóa
-        </button><button class="btn btn-success" data-toggle="modal"
-        data-target="#myModal" onclick ="editNv('${element.tk}')">
-          Sửa
-        </button></td>
+          <td>${element.tongLuong}</td>
+          <td>${element.xepLoai}</td>
+          <td><button class="btn btn-success" data-toggle="modal"
+          data-target="#myModal" onclick ="btnEditNv('${element.tk}')">
+          <i class="fa fa-pencil-square-o"></i>
+          </button><button class="btn btn-danger mx-1" onclick ="btnDeleteNv('${element.tk}')">
+          <i class="fa fa-trash"></i>
+          </button></td>
           </tr>`)
   );
   getEle('tableDanhSach').innerHTML = tableContent;
@@ -44,17 +44,19 @@ btnThemNV = () => {
     luongCB: getEle('luongCB').value,
     chucvu: getEle('chucvu').value,
     gioLam: getEle('gioLam').value,
-    salary: 0,
-    quality: '',
+    tongLuong: 0,
+    xepLoai: '',
   };
 
-  checkAccountExist('tknv');
-  if (validateNV() || checkAccountExist('tknv')) {
-    return;
+  let validateResult = validateNV();
+  if (!validateResult) {
+    validateResult = checkAccountExist('tknv');
   }
 
-  nhanVien.salary = tinhLuong(nhanVien.chucvu, getEle('luongCB').value);
-  nhanVien.quality = xepLoaiNv(Number(getEle('gioLam').value));
+  if (validateResult) return;
+
+  nhanVien.tongLuong = tinhLuong(nhanVien.chucvu, getEle('luongCB').value);
+  nhanVien.xepLoai = xepLoaiNv(Number(getEle('gioLam').value));
 
   danhSach.push(nhanVien);
   taoTable(danhSach);
@@ -69,10 +71,10 @@ btnThemNV = () => {
   });
 };
 
-deleteNv = (account) => {
+btnDeleteNv = (tk) => {
   Swal.fire({
     title: 'Are you sure?',
-    text: `Tài khoản ${account} sẽ bị xóa và không thể phục hồi`,
+    text: `Tài khoản ${tk} sẽ bị xóa và không thể phục hồi`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -81,12 +83,12 @@ deleteNv = (account) => {
   }).then((result) => {
     if (result.isConfirmed) {
       for (let i = 0; i < danhSach.length; i++) {
-        if (danhSach[i].tk == account) {
+        if (danhSach[i].tk == tk) {
           danhSach.splice(i, 1);
         }
       }
       localStorage.setItem('danhSach', JSON.stringify(danhSach));
-      Swal.fire('Deleted!', `Tài khoản ${account} đã bị xóa`, 'success').then(
+      Swal.fire('Deleted!', `Tài khoản ${tk} đã bị xóa`, 'success').then(
         (result) => {
           if (result.isConfirmed) {
             window.location.reload();
@@ -97,37 +99,31 @@ deleteNv = (account) => {
   });
 };
 
-editNv = (account) => {
-  let objData;
+btnEditNv = (tk) => {
+  let nhanVien;
   for (let i = 0; i < danhSach.length; i++) {
-    if (danhSach[i].tk == account) {
-      objData = { ...danhSach[i] };
+    if (danhSach[i].tk == tk) {
+      nhanVien = { ...danhSach[i] };
     }
   }
-  var form = $('#formNV');
-  for (var key in objData) {
-    var selector = `input[name="${key}"], textarea[name="${key}"]`;
-    var input = $(form).find(selector);
-    input.val(objData[key]);
-  }
-  console.log(objData);
 
-  // const form2 = document.querySelector('#formNV');
-  // const formData = new FormData(form2);
-  // for (var pair of formData.entries()) {
-  //   console.log(pair[0] + ', ' + pair[1]);
-  // }
+  getEle('tknv').value = nhanVien.tk;
+  getEle('name').value = nhanVien.name;
+  getEle('email').value = nhanVien.email;
+  getEle('password').value = nhanVien.password;
+  getEle('luongCB').value = nhanVien.luongCB;
+  getEle('chucvu').value = nhanVien.chucvu;
+  getEle('gioLam').value = nhanVien.gioLam;
 };
 
 btnCapNhat = () => {
-  getEle('tbTKNV2').style.display = 'none';
   if (validateNV()) {
     return;
   }
   let j;
-  let account = getEle('tknv').value;
+  let tk = getEle('tknv').value;
   for (let i = 0; i < danhSach.length; i++) {
-    if (danhSach[i].tk == account) {
+    if (danhSach[i].tk == tk) {
       j = i;
       break;
     }
@@ -140,11 +136,11 @@ btnCapNhat = () => {
     danhSach[j].email = getEle('email').value;
     danhSach[j].ngaylam = getEle('datepicker').value;
     danhSach[j].chucvu = getEle('chucvu').value;
-    danhSach[j].salary = tinhLuong(
+    danhSach[j].tongLuong = tinhLuong(
       getEle('chucvu').value,
       getEle('luongCB').value
     );
-    danhSach[j].quality = xepLoaiNv(Number(getEle('gioLam').value));
+    danhSach[j].xepLoai = xepLoaiNv(Number(getEle('gioLam').value));
     getEle('tbTKNV').style.display = 'none';
     taoTable(danhSach);
     localStorage.setItem('danhSach', JSON.stringify(danhSach));
@@ -165,7 +161,7 @@ btnTimNV = () => {
     danhSachXepLoai = danhSach;
   } else {
     danhSach.map((element) => {
-      if (element.quality.toLowerCase() == searchValue) {
+      if (element.xepLoai.toLowerCase() == searchValue) {
         danhSachXepLoai.push(element);
       }
     });

@@ -49,11 +49,11 @@ btnThemNV = () => {
   };
 
   let validateResult = validateNV();
-  if (!validateResult) {
-    validateResult = checkAccountExist('tknv');
+  if (validateResult) {
+    validateResult = checkAccountNotExist();
   }
 
-  if (validateResult) return;
+  if (!validateResult) return;
 
   nhanVien.tongLuong = tinhLuong(nhanVien.chucvu, getEle('luongCB').value);
   nhanVien.xepLoai = xepLoaiNv(Number(getEle('gioLam').value));
@@ -111,13 +111,14 @@ btnEditNv = (tk) => {
   getEle('name').value = nhanVien.name;
   getEle('email').value = nhanVien.email;
   getEle('password').value = nhanVien.password;
+  getEle('datepicker').value = nhanVien.ngaylam;
   getEle('luongCB').value = nhanVien.luongCB;
   getEle('chucvu').value = nhanVien.chucvu;
   getEle('gioLam').value = nhanVien.gioLam;
 };
 
 btnCapNhat = () => {
-  if (validateNV()) return;
+  if (!validateNV()) return;
 
   let j;
   for (let i = 0; i < danhSach.length; i++) {

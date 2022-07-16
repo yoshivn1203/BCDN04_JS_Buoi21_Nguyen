@@ -33,30 +33,15 @@ btnThemNV = () => {
   taoTable(danhSach);
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
   resetForm('formNV');
-
-  Swal.fire({
-    position: 'top-end',
-    icon: 'success',
-    title: 'Thêm nhân viên thành công',
-    showConfirmButton: false,
-    timer: 1500,
-  });
+  alertSuccess('Thêm nhân viên thành công');
 };
 
 btnDeleteNv = (tk) => {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: `Tài khoản ${tk} sẽ bị xóa và không thể phục hồi`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Confirm',
-  }).then((result) => {
+  alertDelete(`Tài khoản ${tk} sẽ bị xóa và không thể phục hồi`).then((result) => {
     if (result.isConfirmed) {
       danhSachNV.xoaNhanVien(tk);
       localStorage.setItem('danhSach', JSON.stringify(danhSach));
-      Swal.fire('Deleted!', `Tài khoản ${tk} đã bị xóa`, 'success');
+      alertSuccess(`Tài khoản ${tk} đã bị xóa`);
       taoTable(danhSach);
     }
   });
@@ -89,13 +74,7 @@ btnCapNhat = () => {
       nhanVien.xepLoaiNv();
       taoTable(danhSach);
       localStorage.setItem('danhSach', JSON.stringify(danhSach));
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Cập nhật nhân viên thành công',
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      alertSuccess('Cập nhật thành công');
       return;
     }
   }

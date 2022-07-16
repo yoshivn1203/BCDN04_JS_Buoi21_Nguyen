@@ -25,5 +25,8 @@ DanhSachNV.prototype.timNhanVien = function (searchValue) {
       }
     });
   }
+  danhSachXepLoai.length == 0
+    ? messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
+    : messageSwitch(0, 'tbSearch');
   return danhSachXepLoai;
 };

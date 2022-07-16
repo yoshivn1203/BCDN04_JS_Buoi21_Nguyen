@@ -35,6 +35,7 @@ btnThemNV = () => {
   danhSachNV.themNhanVien(nhanVien);
   taoTable(danhSach);
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
+  resetForm('formNV');
 
   Swal.fire({
     position: 'top-end',
@@ -132,4 +133,8 @@ taoTable = (danhSach) => {
           </tr>`)
   );
   getEle('tableDanhSach').innerHTML = tableContent;
+};
+
+resetForm = (formId) => {
+  document.getElementById(formId).reset();
 };

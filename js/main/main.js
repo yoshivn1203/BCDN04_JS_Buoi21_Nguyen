@@ -1,10 +1,7 @@
-getEle = (id) => {
-  return document.getElementById(id);
-};
+getEle = (id) => document.getElementById(id);
+resetForm = (formId) => getEle(formId).reset();
 
-castToNhanVien = (object) => {
-  return Object.assign(new NhanVien(), object);
-};
+castToNhanVien = (object) => Object.assign(new NhanVien(), object);
 
 let danhSachNV = new DanhSachNV();
 let { danhSach } = danhSachNV;
@@ -86,7 +83,7 @@ btnCapNhat = () => {
 
   for (const nhanVien of danhSach) {
     if (nhanVien.tk == getEle('tknv').value) {
-      getEle('tbTKNV').style.display = 'none';
+      messageSwitch(0, 'tbTKNV');
       nhanVien.layThongTinTuForm();
       nhanVien.tinhLuong();
       nhanVien.xepLoaiNv();
@@ -102,8 +99,7 @@ btnCapNhat = () => {
       return;
     }
   }
-  getEle('tbTKNV').innerHTML = 'Tài khoản không tồn tại';
-  getEle('tbTKNV').style.display = 'block';
+  messageSwitch(1, 'tbTKNV', 'Tài khoản không tồn tại');
 };
 
 btnTimNV = () => {
@@ -133,8 +129,4 @@ taoTable = (danhSach) => {
           </tr>`)
   );
   getEle('tableDanhSach').innerHTML = tableContent;
-};
-
-resetForm = (formId) => {
-  document.getElementById(formId).reset();
 };

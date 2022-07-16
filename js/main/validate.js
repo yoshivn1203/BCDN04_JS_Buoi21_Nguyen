@@ -1,135 +1,99 @@
-checkNotEmpty = (idField, id, doiTuong) => {
-  let text = getEle(idField).value;
-  if (text == '') {
-    getEle(id).innerHTML = `${doiTuong} không được để trống `;
-    getEle(id).style.display = 'block';
+messageSwitch = (value, idTB, message = '') => {
+  if (value == 1) {
+    getEle(idTB).style.display = 'block';
+    getEle(idTB).innerHTML = message;
     return false;
-  } else {
-    getEle(id).style.display = 'none';
+  } else if (value == 0) {
+    getEle(idTB).style.display = 'none';
     return true;
   }
+};
+
+checkNotEmpty = (id, idTB, doiTuong) => {
+  let text = getEle(id).value;
+  return text == ''
+    ? messageSwitch(1, idTB, `${doiTuong} không được để trống `)
+    : messageSwitch(0, idTB);
 };
 
 checkAccountNotExist = () => {
   for (let i = 0; i < danhSach.length; i++) {
     if (danhSach[i].tk == getEle('tknv').value) {
-      getEle('tbTKNV').innerHTML = 'Tài khoản đã tồn tại';
-      getEle('tbTKNV').style.display = 'block';
-      return false;
+      return messageSwitch(1, 'tbTKNV', 'Tài khoản đã tồn tại');
     }
   }
-  getEle('tbTKNV').style.display = 'none';
-  return true;
+  return messageSwitch(0, 'tbTKNV');
 };
 
-checkLenght = (idField, id, doiTuong, minLength, maxLength) => {
-  let text = getEle(idField).value;
-
-  if (text.length < minLength || text.length > maxLength) {
-    getEle(
-      id
-    ).innerHTML = `${doiTuong} phải có ${minLength}-${maxLength} ký tự`;
-    getEle(id).style.display = 'block';
-    return false;
-  } else {
-    getEle(id).style.display = 'none';
-    return true;
-  }
+checkLenght = (id, idTB, doiTuong, minLength, maxLength) => {
+  let text = getEle(id).value;
+  return text.length < minLength || text.length > maxLength
+    ? messageSwitch(1, idTB, `${doiTuong} phải có ${minLength}-${maxLength} ký tự`)
+    : messageSwitch(0, idTB);
 };
 
 checkText = () => {
   let text = getEle('name').value;
   let textSample = /^[A-Za-z ]+$/;
-  if (!text.match(textSample)) {
-    getEle('tbTen').innerHTML = 'Tên phải là chữ không dấu';
-    getEle('tbTen').style.display = 'block';
-    return false;
-  } else {
-    getEle('tbTen').style.display = 'none';
-    return true;
-  }
+  return !text.match(textSample)
+    ? messageSwitch(1, 'tbTen', 'Tên phải là chữ không dấu')
+    : messageSwitch(0, 'tbTen');
 };
+
 checkEmail = () => {
   let text = getEle('email').value;
   let textSample =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (!text.match(textSample)) {
-    getEle('tbEmail').innerHTML = 'Email không hợp lệ';
-    getEle('tbEmail').style.display = 'block';
-    return false;
-  } else {
-    getEle('tbEmail').style.display = 'none';
-    return true;
-  }
+  return !text.match(textSample)
+    ? messageSwitch(1, 'tbEmail', 'Email không hợp lệ')
+    : messageSwitch(0, 'tbEmail');
 };
+
 checkPassword = () => {
   let text = getEle('password').value;
-  let textSample =
-    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/;
+  let textSample = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/;
 
-  if (!text.match(textSample)) {
-    getEle('tbMatKhau').innerHTML =
-      'Mật khẩu từ 6-10 ký tự (ít nhất 1 ký tự số, 1 ký tự hoa, 1 ký tự đặc biệt';
-    getEle('tbMatKhau').style.display = 'block';
-    return false;
-  } else {
-    getEle('tbMatKhau').style.display = 'none';
-    return true;
-  }
+  return !text.match(textSample)
+    ? messageSwitch(
+        1,
+        'tbMatKhau',
+        'Mật khẩu từ 6-10 ký tự (ít nhất 1 ký tự số, 1 ký tự hoa, 1 ký tự đặc biệt'
+      )
+    : messageSwitch(0, 'tbMatKhau');
 };
+
 checkDateInput = () => {
   let text = getEle('datepicker').value;
-  let textSample =
-    /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
-
-  if (!text.match(textSample)) {
-    getEle('tbNgay').innerHTML = 'Định dạng ngày phải là mm/dd/yyyy';
-    getEle('tbNgay').style.display = 'block';
-    return false;
-  } else {
-    getEle('tbNgay').style.display = 'none';
-    return true;
-  }
+  let textSample = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
+  return !text.match(textSample)
+    ? messageSwitch(1, 'tbNgay', 'Định dạng ngày phải là mm/dd/yyyy')
+    : messageSwitch(0, 'tbNgay');
 };
 
-checkNumber = (idField, id, doituong) => {
-  let text = getEle(idField).value;
+checkNumber = (id, idTB, doituong) => {
+  let text = getEle(id).value;
   let textSample = /^[0-9]+$/;
-  if (!text.match(textSample)) {
-    getEle(id).innerHTML = `${doituong} phải là số`;
-    getEle(id).style.display = 'block';
-    return false;
-  } else {
-    getEle(id).style.display = 'none';
-    return true;
-  }
+  return !text.match(textSample)
+    ? messageSwitch(1, idTB, `${doituong} phải là số`)
+    : messageSwitch(0, idTB);
 };
 
-checkNumberValue = (idField, id, doiTuong, minLength, maxLength) => {
-  let number = Number(getEle(idField).value);
-
-  if (number < minLength || number > maxLength) {
-    getEle(
-      id
-    ).innerHTML = `${doiTuong} phải nằm trong khoảng ${minLength}-${maxLength}`;
-    getEle(id).style.display = 'block';
-    return false;
-  } else {
-    getEle(id).style.display = 'none';
-    return true;
-  }
+checkNumberValue = (id, idTB, doiTuong, minLength, maxLength) => {
+  let number = Number(getEle(id).value);
+  return number < minLength || number > maxLength
+    ? messageSwitch(
+        1,
+        idTB,
+        `${doiTuong} phải nằm trong khoảng ${minLength}-${maxLength}`
+      )
+    : messageSwitch(0, idTB);
 };
 
 checkPosition = () => {
   let theSelect = getEle('chucvu');
-  if (theSelect.selectedIndex == 0) {
-    getEle('tbChucVu').innerHTML = 'Hãy chọn chức vụ';
-    getEle('tbChucVu').style.display = 'block';
-    return false;
-  } else {
-    getEle('tbChucVu').style.display = 'none';
-    return true;
-  }
+  return theSelect.selectedIndex == 0
+    ? messageSwitch(1, 'tbChucVu', 'Hãy chọn chức vụ')
+    : messageSwitch(0, 'tbChucVu');
 };
 
 validateNV = () => {
@@ -178,18 +142,11 @@ validateNV = () => {
   if (validateGioLam) {
     validateGioLam = checkNumber('gioLam', 'tbGiolam', 'Giờ làm');
     if (validateGioLam) {
-      validateGioLam = checkNumberValue(
-        'gioLam',
-        'tbGiolam',
-        'Giờ làm',
-        80,
-        200
-      );
+      validateGioLam = checkNumberValue('gioLam', 'tbGiolam', 'Giờ làm', 80, 200);
     }
   }
 
-  if (
-    validateAccount &&
+  return validateAccount &&
     validateName &&
     validateEmail &&
     validatePassword &&
@@ -197,9 +154,6 @@ validateNV = () => {
     validateLuongCb &&
     validateChucVu &&
     validateGioLam
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+    ? true
+    : false;
 };

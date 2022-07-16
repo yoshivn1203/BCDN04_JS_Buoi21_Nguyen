@@ -84,6 +84,9 @@ btnCapNhat = () => {
 btnTimNV = () => {
   let searchValue = getEle('searchName').value.toLowerCase();
   let danhSachXepLoai = danhSachNV.timNhanVien(searchValue);
+  danhSachXepLoai.length == 0
+    ? messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
+    : messageSwitch(0, 'tbSearch');
   taoTable(danhSachXepLoai);
 };
 

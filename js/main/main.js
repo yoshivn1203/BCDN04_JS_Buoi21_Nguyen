@@ -96,10 +96,10 @@ taoTable = (danhSach) => {
           <td>${nv.chucvu}</td>
           <td>${nv.tongLuong}</td>
           <td>${nv.xepLoai}</td>
-          <td><button class="btn btn-success" data-toggle="modal"
+          <td><button class="btn btn-success mb-1 mr-1" data-toggle="modal"
           data-target="#myModal" onclick ="btnEditNv('${nv.tk}')">
-          <i class="fa fa-pencil-square-o"></i>
-          </button><button class="btn btn-danger mx-1" onclick ="btnDeleteNv('${nv.tk}')">
+          <i class="fa fa-pencil-square"></i>
+          </button><button class="btn btn-danger mb-1" onclick ="btnDeleteNv('${nv.tk}')">
           <i class="fa fa-trash"></i>
           </button></td>
           </tr>`)

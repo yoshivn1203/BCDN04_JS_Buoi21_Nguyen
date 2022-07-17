@@ -10,32 +10,31 @@ NhanVien.prototype.layThongTinTuForm = function () {
   this.luongCB = getEle('luongCB').value;
   this.chucvu = getEle('chucvu').value;
   this.gioLam = getEle('gioLam').value;
+  this.tongLuong = this.tinhLuong();
+  this.xepLoai = this.xepLoaiNv();
 };
 
 NhanVien.prototype.tinhLuong = function () {
   switch (this.chucvu) {
     case 'Sếp':
-      this.tongLuong = this.luongCB * 3;
-      break;
+      return this.luongCB * 3;
     case 'Trưởng phòng':
-      this.tongLuong = this.luongCB * 2;
-      break;
+      return this.luongCB * 2;
     case 'Nhân viên':
-      this.tongLuong = this.luongCB;
-      break;
+      return this.luongCB;
   }
 };
 
 NhanVien.prototype.xepLoaiNv = function () {
   let g = Number(this.gioLam);
 
-  g >= 192
-    ? (this.xepLoai = 'Xuất sắc')
+  return g >= 192
+    ? 'Xuất sắc'
     : g < 192 && g >= 176
-    ? (this.xepLoai = 'Giỏi')
+    ? 'Giỏi'
     : g < 176 && g >= 160
-    ? (this.xepLoai = 'Khá')
+    ? 'Khá'
     : g < 160
-    ? (this.xepLoai = 'Trung bình')
-    : (this.xepLoai = '');
+    ? 'Trung bình'
+    : '';
 };

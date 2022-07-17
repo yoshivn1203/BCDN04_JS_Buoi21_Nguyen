@@ -1,6 +1,5 @@
 getEle = (id) => document.getElementById(id);
 resetForm = (formId) => getEle(formId).reset();
-
 castToNhanVien = (object) => Object.assign(new NhanVien(), object);
 
 let danhSachNV = new DanhSachNV();
@@ -10,7 +9,6 @@ window.onload = () => {
   data = localStorage.getItem('danhSach')
     ? JSON.parse(localStorage.getItem('danhSach'))
     : data;
-
   data = data.map((p) => castToNhanVien(p));
   data.forEach((p) => {
     danhSachNV.themNhanVien(p);
@@ -27,8 +25,6 @@ btnThemNV = () => {
 
   let nhanVien = new NhanVien(getEle('tknv').value);
   nhanVien.layThongTinTuForm();
-  nhanVien.tinhLuong();
-  nhanVien.xepLoaiNv();
   danhSachNV.themNhanVien(nhanVien);
   taoTable(danhSach);
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
@@ -70,8 +66,6 @@ btnCapNhat = () => {
     if (nhanVien.tk == getEle('tknv').value) {
       messageSwitch(0, 'tbTKNV');
       nhanVien.layThongTinTuForm();
-      nhanVien.tinhLuong();
-      nhanVien.xepLoaiNv();
       taoTable(danhSach);
       localStorage.setItem('danhSach', JSON.stringify(danhSach));
       alertSuccess('Cập nhật thành công');

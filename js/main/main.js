@@ -17,11 +17,7 @@ window.onload = () => {
 };
 
 btnThemNV = () => {
-  let validateResult = validateNV();
-  if (validateResult) {
-    validateResult = checkAccountNotExist();
-  }
-  if (!validateResult) return;
+  if (!validateNV() || !checkAccountNotExist()) return;
 
   let nhanVien = new NhanVien(getEle('tknv').value);
   nhanVien.layThongTinTuForm();

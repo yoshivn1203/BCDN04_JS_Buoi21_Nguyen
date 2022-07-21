@@ -36,17 +36,6 @@ export class Helper {
       ele.style.display = 'none';
     });
   };
-
-  messageSwitch = (value, idTB, message = '') => {
-    if (value == 1) {
-      getEle(idTB).style.display = 'block';
-      getEle(idTB).innerHTML = message;
-      return false;
-    } else if (value == 0) {
-      getEle(idTB).style.display = 'none';
-      return true;
-    }
-  };
 }
 
 export class CustomModal {

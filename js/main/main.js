@@ -81,8 +81,8 @@ window.btnTimNV = () => {
   let searchValue = getEle('searchName').value.toLowerCase();
   let danhSachXepLoai = danhSachNV.timNhanVien(searchValue);
   danhSachXepLoai.length == 0
-    ? helper.messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
-    : helper.messageSwitch(0, 'tbSearch');
+    ? validate.messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
+    : validate.messageSwitch(0, 'tbSearch');
   renderTable(danhSachXepLoai);
 };
 

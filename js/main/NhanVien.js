@@ -1,18 +1,17 @@
-function NhanVien(tk) {
-  this.tk = tk;
+export class NhanVien {
+  constructor(tk, name, email, password, ngaylam, luongCB, chucvu, gioLam) {
+    this.tk = tk;
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.ngaylam = ngaylam;
+    this.luongCB = luongCB;
+    this.chucvu = chucvu;
+    this.gioLam = gioLam;
+    this.tongLuong = this.tinhLuong();
+    this.xepLoai = this.xepLoaiNv();
+  }
 }
-
-NhanVien.prototype.layThongTinTuForm = function () {
-  this.name = getEle('name').value;
-  this.email = getEle('email').value;
-  this.password = getEle('password').value;
-  this.ngaylam = getEle('datepicker').value;
-  this.luongCB = getEle('luongCB').value;
-  this.chucvu = getEle('chucvu').value;
-  this.gioLam = getEle('gioLam').value;
-  this.tongLuong = this.tinhLuong();
-  this.xepLoai = this.xepLoaiNv();
-};
 
 NhanVien.prototype.tinhLuong = function () {
   switch (this.chucvu) {

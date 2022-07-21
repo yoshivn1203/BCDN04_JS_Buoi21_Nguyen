@@ -1,17 +1,27 @@
-function DanhSachNV() {
-  this.danhSach = [];
+export class DanhSachNV {
+  danhSach = [];
 }
 
 DanhSachNV.prototype.themNhanVien = function (nv) {
   this.danhSach.push(nv);
 };
 
-DanhSachNV.prototype.xoaNhanVien = function (tk) {
+DanhSachNV.prototype.timViTri = function (tk) {
   for (let i = 0; i < this.danhSach.length; i++) {
     if (this.danhSach[i].tk == tk) {
-      this.danhSach.splice(i, 1);
+      return i;
     }
   }
+};
+
+DanhSachNV.prototype.xoaNhanVien = function (tk) {
+  let viTri = this.timViTri(tk);
+  this.danhSach.splice(viTri, 1);
+};
+
+DanhSachNV.prototype.suaNhanVien = function (nhanVien) {
+  let viTri = this.timViTri(nhanVien.tk);
+  this.danhSach[viTri] = nhanVien;
 };
 
 DanhSachNV.prototype.timNhanVien = function (searchValue) {

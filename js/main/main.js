@@ -1,86 +1,92 @@
-getEle = (id) => document.getElementById(id);
-resetForm = (formId) => getEle(formId).reset();
-castToNhanVien = (object) => Object.assign(new NhanVien(), object);
+import { Helper, CustomModal } from './utils.js';
+import { Validate } from './validate.js';
+import { NhanVien } from './NhanVien.js';
+import { DanhSachNV } from './DanhSachNV.js';
 
+let helper = new Helper();
+let validate = new Validate();
 let danhSachNV = new DanhSachNV();
 let { danhSach } = danhSachNV;
 
+let getEle = (id) => document.getElementById(id);
+let resetForm = (formId) => getEle(formId).reset();
+
 window.onload = () => {
-  data = localStorage.getItem('danhSach')
+  let data = localStorage.getItem('danhSach')
     ? JSON.parse(localStorage.getItem('danhSach'))
     : data;
-  data = data.map((p) => castToNhanVien(p));
   data.forEach((p) => {
     danhSachNV.themNhanVien(p);
   });
-  taoTable(danhSach);
+  renderTable(danhSach);
 };
 
-btnThemNV = () => {
-  if (!validateNV() || !checkAccountNotExist()) return;
+getEle('btnThem').onclick = () => {
+  helper.clearTB();
+  getEle('tknv').disabled = false;
+  getEle('btnCapNhat').style.display = 'none';
+  getEle('btnThemNV').style.display = 'inline-block';
+};
 
-  let nhanVien = new NhanVien(getEle('tknv').value);
-  nhanVien.layThongTinTuForm();
+getEle('btnThemNV').onclick = () => {
+  if (!validate.isValid() || !validate.isNotExist(danhSach)) return;
+  let inputs = helper.getInputValue();
+  let nhanVien = new NhanVien(...inputs);
   danhSachNV.themNhanVien(nhanVien);
-  taoTable(danhSach);
+  renderTable(danhSach);
   localStorage.setItem('danhSach', JSON.stringify(danhSach));
   resetForm('formNV');
-  alertSuccess('Thêm nhân viên thành công');
+  CustomModal.alertSuccess('Thêm nhân viên thành công');
 };
 
-btnDeleteNv = (tk) => {
-  alertDelete(`Tài khoản ${tk} sẽ bị xóa và không thể phục hồi`).then((result) => {
-    if (result.isConfirmed) {
-      danhSachNV.xoaNhanVien(tk);
-      localStorage.setItem('danhSach', JSON.stringify(danhSach));
-      alertSuccess(`Tài khoản ${tk} đã bị xóa`);
-      taoTable(danhSach);
+window.btnDeleteNv = (tk) => {
+  CustomModal.alertDelete(`Tài khoản ${tk} sẽ bị xóa và không thể phục hồi`).then(
+    (result) => {
+      if (result.isConfirmed) {
+        danhSachNV.xoaNhanVien(tk);
+        localStorage.setItem('danhSach', JSON.stringify(danhSach));
+        CustomModal.alertSuccess(`Tài khoản ${tk} đã bị xóa`);
+        renderTable(danhSach);
+      }
     }
-  });
+  );
 };
 
-btnEditNv = (tk) => {
+window.btnEditNv = (tk) => {
+  helper.clearTB();
+  getEle('tknv').disabled = true;
+  getEle('btnCapNhat').style.display = 'inline-block';
+  getEle('btnThemNV').style.display = 'none';
+
   for (const nhanVien of danhSach) {
     if (nhanVien.tk == tk) {
-      getEle('tknv').value = nhanVien.tk;
-      getEle('name').value = nhanVien.name;
-      getEle('email').value = nhanVien.email;
-      getEle('password').value = nhanVien.password;
-      getEle('datepicker').value = nhanVien.ngaylam;
-      getEle('luongCB').value = nhanVien.luongCB;
-      getEle('chucvu').value = nhanVien.chucvu;
-      getEle('gioLam').value = nhanVien.gioLam;
+      let arr = Object.keys(nhanVien).map((k) => nhanVien[k]);
+      helper.fill(arr);
       break;
     }
   }
 };
 
-btnCapNhat = () => {
-  if (!validateNV()) return;
-
-  for (const nhanVien of danhSach) {
-    if (nhanVien.tk == getEle('tknv').value) {
-      messageSwitch(0, 'tbTKNV');
-      nhanVien.layThongTinTuForm();
-      taoTable(danhSach);
-      localStorage.setItem('danhSach', JSON.stringify(danhSach));
-      alertSuccess('Cập nhật thành công');
-      return;
-    }
-  }
-  messageSwitch(1, 'tbTKNV', 'Tài khoản không tồn tại');
+getEle('btnCapNhat').onclick = () => {
+  if (!validate.isValid()) return;
+  let inputs = helper.getInputValue();
+  let nhanVien = new NhanVien(...inputs);
+  danhSachNV.suaNhanVien(nhanVien);
+  renderTable(danhSach);
+  localStorage.setItem('danhSach', JSON.stringify(danhSach));
+  CustomModal.alertSuccess('Cập nhật thành công');
 };
 
-btnTimNV = () => {
+window.btnTimNV = () => {
   let searchValue = getEle('searchName').value.toLowerCase();
   let danhSachXepLoai = danhSachNV.timNhanVien(searchValue);
   danhSachXepLoai.length == 0
-    ? messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
-    : messageSwitch(0, 'tbSearch');
-  taoTable(danhSachXepLoai);
+    ? helper.messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
+    : helper.messageSwitch(0, 'tbSearch');
+  renderTable(danhSachXepLoai);
 };
 
-taoTable = (danhSach) => {
+let renderTable = (danhSach) => {
   let tableContent = '';
   danhSach.forEach(
     (nv) =>

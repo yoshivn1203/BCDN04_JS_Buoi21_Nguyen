@@ -8,8 +8,8 @@ let validate = new Validate();
 let danhSachNV = new DanhSachNV();
 let { danhSach } = danhSachNV;
 
-let getEle = (id) => document.getElementById(id);
-let resetForm = (formId) => getEle(formId).reset();
+const getEle = (id) => document.getElementById(id);
+const resetForm = (formId) => getEle(formId).reset();
 
 window.onload = () => {
   let data = localStorage.getItem('danhSach')

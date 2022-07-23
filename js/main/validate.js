@@ -1,4 +1,4 @@
-let getEle = (id) => document.getElementById(id);
+const getEle = (id) => document.getElementById(id);
 export class Validate {
   messageSwitch = (value, idTB, message = '') => {
     if (value == 1) {

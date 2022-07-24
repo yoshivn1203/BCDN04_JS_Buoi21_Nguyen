@@ -21,21 +21,21 @@ export class Helper {
     'tbGiolam',
   ];
 
-  getInputValue = () => {
+  getInputValue() {
     return this.inpFields.map((ele) => getEle(ele).value);
-  };
-  fill = (arr) => {
+  }
+  fill(arr) {
     let fields = this.inpFields.map((ele) => getEle(ele));
     fields.forEach((ele, id) => {
       ele.value = arr[id];
     });
-  };
-  clearTB = () => {
+  }
+  clearTB() {
     let fields = this.tbFields.map((ele) => getEle(ele));
     fields.forEach((ele) => {
       ele.style.display = 'none';
     });
-  };
+  }
 }
 
 export class CustomModal {

@@ -14,7 +14,7 @@ const resetForm = (formId) => getEle(formId).reset();
 window.onload = () => {
   let data = localStorage.getItem('danhSach')
     ? JSON.parse(localStorage.getItem('danhSach'))
-    : data;
+    : [];
   data.forEach((p) => {
     danhSachNV.themNhanVien(p);
   });

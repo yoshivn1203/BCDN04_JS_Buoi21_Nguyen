@@ -1,5 +1,12 @@
 const getEle = (id) => document.getElementById(id);
 export class Validate {
+  textRegex = /^[A-Za-z ]+$/;
+  numRegex = /^[0-9]+$/;
+  emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  passRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/;
+  dateRegex = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
+
   messageSwitch = (value, idTB, message = '') => {
     if (value == 1) {
       getEle(idTB).style.display = 'block';
@@ -12,10 +19,17 @@ export class Validate {
   };
 
   isNotEmpty(id, idTB) {
-    let text = getEle(id).value;
+    let text = getEle(id).value.trim();
     return text == ''
       ? this.messageSwitch(1, idTB, `(*)Vui lòng không để trống `)
       : this.messageSwitch(0, idTB);
+  }
+
+  isSelected() {
+    let theSelect = getEle('chucvu');
+    return theSelect.selectedIndex == 0
+      ? this.messageSwitch(1, 'tbChucVu', 'Hãy chọn chức vụ')
+      : this.messageSwitch(0, 'tbChucVu');
   }
 
   isNotExist(danhSach) {
@@ -34,48 +48,10 @@ export class Validate {
       : this.messageSwitch(0, idTB);
   }
 
-  isText() {
-    let text = getEle('name').value;
-    let textSample = /^[A-Za-z ]+$/;
-    return !text.match(textSample)
-      ? this.messageSwitch(1, 'tbTen', 'Tên phải là chữ không dấu')
-      : this.messageSwitch(0, 'tbTen');
-  }
-
-  isEmail() {
-    let text = getEle('email').value;
-    let textSample =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return !text.match(textSample)
-      ? this.messageSwitch(1, 'tbEmail', 'Email không hợp lệ')
-      : this.messageSwitch(0, 'tbEmail');
-  }
-
-  isPassword() {
-    let text = getEle('password').value;
-    let textSample = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/;
-    return !text.match(textSample)
-      ? this.messageSwitch(
-          1,
-          'tbMatKhau',
-          'Mật khẩu từ 6-10 ký tự (ít nhất 1 ký tự số, 1 ký tự hoa, 1 ký tự đặc biệt'
-        )
-      : this.messageSwitch(0, 'tbMatKhau');
-  }
-
-  isDate() {
-    let text = getEle('datepicker').value;
-    let textSample = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
-    return !text.match(textSample)
-      ? this.messageSwitch(1, 'tbNgay', 'Định dạng ngày phải là mm/dd/yyyy')
-      : this.messageSwitch(0, 'tbNgay');
-  }
-
-  isNumber(id, idTB) {
+  isMatch(id, idTB, format, message) {
     let text = getEle(id).value;
-    let textSample = /^[0-9]+$/;
-    return !text.match(textSample)
-      ? this.messageSwitch(1, idTB, `(*)Phải là số`)
+    return !text.match(format)
+      ? this.messageSwitch(1, idTB, message)
       : this.messageSwitch(0, idTB);
   }
 
@@ -86,66 +62,40 @@ export class Validate {
       : this.messageSwitch(0, idTB);
   }
 
-  isSelected() {
-    let theSelect = getEle('chucvu');
-    return theSelect.selectedIndex == 0
-      ? this.messageSwitch(1, 'tbChucVu', 'Hãy chọn chức vụ')
-      : this.messageSwitch(0, 'tbChucVu');
-  }
-
   isValid() {
-    let validateAccount = this.isNotEmpty('tknv', 'tbTKNV');
-    if (validateAccount) {
-      validateAccount = this.isInLength('tknv', 'tbTKNV', 4, 6);
-    }
-
-    let validateName = this.isNotEmpty('name', 'tbTen');
-    if (validateName) {
-      validateName = this.isText();
-    }
-
-    let validateEmail = this.isNotEmpty('email', 'tbEmail');
-    if (validateEmail) {
-      validateEmail = this.isEmail();
-    }
-
-    let validatePassword = this.isNotEmpty('password', 'tbMatKhau');
-    if (validatePassword) {
-      validatePassword = this.isPassword();
-    }
-
-    let validateDate = this.isNotEmpty('datepicker', 'tbNgay');
-    if (validateDate) {
-      validateDate = this.isDate();
-    }
-
-    let validateLuongCb = this.isNotEmpty('luongCB', 'tbLuongCB');
-    if (validateLuongCb) {
-      validateLuongCb = this.isNumber('luongCB', 'tbLuongCB');
-      if (validateLuongCb) {
-        validateLuongCb = this.isInRange('luongCB', 'tbLuongCB', 1e6, 2e7);
-      }
-    }
-
-    let validateChucVu = this.isSelected();
-
-    let validateGioLam = this.isNotEmpty('gioLam', 'tbGiolam');
-    if (validateGioLam) {
-      validateGioLam = this.isNumber('gioLam', 'tbGiolam');
-      if (validateGioLam) {
-        validateGioLam = this.isInRange('gioLam', 'tbGiolam', 80, 200);
-      }
-    }
-
-    return validateAccount &&
-      validateName &&
-      validateEmail &&
-      validatePassword &&
-      validateDate &&
-      validateLuongCb &&
-      validateChucVu &&
-      validateGioLam
-      ? true
-      : false;
+    let valid = true;
+    valid &= this.isNotEmpty('tknv', 'tbTKNV') && this.isInLength('tknv', 'tbTKNV', 4, 6);
+    valid &=
+      this.isNotEmpty('name', 'tbTen') &&
+      this.isMatch('name', 'tbTen', this.textRegex, 'Tên phải là chữ không dấu');
+    valid &=
+      this.isNotEmpty('email', 'tbEmail') &&
+      this.isMatch('email', 'tbEmail', this.emailRegex, 'Email không hợp lệ');
+    valid &=
+      this.isNotEmpty('password', 'tbMatKhau') &&
+      this.isMatch(
+        'password',
+        'tbMatKhau',
+        this.passRegex,
+        'Mật khẩu từ 6-10 ký tự (ít nhất 1 ký tự số, 1 ký tự hoa, 1 ký tự đặc biệt'
+      );
+    valid &=
+      this.isNotEmpty('datepicker', 'tbNgay') &&
+      this.isMatch(
+        'datepicker',
+        'tbNgay',
+        this.dateRegex,
+        'Định dạng ngày phải là mm/dd/yyyy'
+      );
+    valid &=
+      this.isNotEmpty('luongCB', 'tbLuongCB') &&
+      this.isMatch('luongCB', 'tbLuongCB', this.numRegex, '(*)Phải là số') &&
+      this.isInRange('luongCB', 'tbLuongCB', 1e6, 2e7);
+    valid &= this.isSelected();
+    valid &=
+      this.isNotEmpty('gioLam', 'tbGiolam') &&
+      this.isMatch('gioLam', 'tbGiolam', this.numRegex, '(*)Phải là số') &&
+      this.isInRange('gioLam', 'tbGiolam', 80, 200);
+    return valid;
   }
 }

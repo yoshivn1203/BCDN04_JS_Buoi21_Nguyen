@@ -3,8 +3,8 @@ import { Validate } from './validate.js';
 import { NhanVien } from './NhanVien.js';
 import { DanhSachNV } from './DanhSachNV.js';
 
-let helper = new Helper();
-let validate = new Validate();
+const helper = new Helper();
+const validate = new Validate();
 let danhSachNV = new DanhSachNV();
 let { danhSach } = danhSachNV;
 
@@ -86,7 +86,7 @@ window.btnTimNV = () => {
   renderTable(danhSachXepLoai);
 };
 
-let renderTable = (danhSach) => {
+const renderTable = (danhSach) => {
   let tableContent = '';
   danhSach.forEach(
     (nv) =>

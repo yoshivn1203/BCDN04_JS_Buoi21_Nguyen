@@ -29,7 +29,7 @@ getEle('btnThem').onclick = () => {
 };
 
 getEle('btnThemNV').onclick = () => {
-  if (!validate.isValid() || !validate.isNotExist(danhSach)) return;
+  if (!validate.isValid(danhSach)) return;
   let inputs = helper.getInputValue();
   let nhanVien = new NhanVien(...inputs);
   danhSachNV.themNhanVien(nhanVien);
@@ -68,7 +68,7 @@ window.btnEditNv = (tk) => {
 };
 
 getEle('btnCapNhat').onclick = () => {
-  if (!validate.isValid()) return;
+  if (!validate.isValid(danhSach, true)) return;
   let inputs = helper.getInputValue();
   let nhanVien = new NhanVien(...inputs);
   danhSachNV.suaNhanVien(nhanVien);
@@ -78,11 +78,11 @@ getEle('btnCapNhat').onclick = () => {
 };
 
 window.btnTimNV = () => {
-  let searchValue = getEle('searchName').value.toLowerCase();
+  let searchValue = getEle('searchName').value.toLowerCase().trim();
   let danhSachXepLoai = danhSachNV.timNhanVien(searchValue);
   danhSachXepLoai.length == 0
-    ? validate.messageSwitch(1, 'tbSearch', 'Không tìm thấy kết quả nào')
-    : validate.messageSwitch(0, 'tbSearch');
+    ? validate.messageSwitch(false, 'tbSearch', 'Không tìm thấy kết quả nào')
+    : validate.messageSwitch(true, 'tbSearch');
   renderTable(danhSachXepLoai);
 };
 

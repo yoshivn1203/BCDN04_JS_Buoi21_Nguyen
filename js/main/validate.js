@@ -69,6 +69,7 @@ export class Validate {
     let valid = true;
     valid &=
       this.isFilled('tknv', 'tbTKNV') &&
+      this.isMatch('tknv', 'tbTKNV', this.numRegex, '(*)Phải là số') &&
       this.isInLength('tknv', 'tbTKNV', 4, 6) &&
       this.isNotExist(danhSach, isUpdate);
     valid &=

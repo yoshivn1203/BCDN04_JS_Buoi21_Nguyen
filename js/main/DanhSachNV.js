@@ -29,7 +29,8 @@ export class DanhSachNV {
       danhSachXepLoai = this.danhSach;
     } else {
       this.danhSach.forEach((nv) => {
-        if (nv.xepLoai.toLowerCase() == searchValue) {
+        const index = nv.xepLoai.toLowerCase().indexOf(searchValue); // để tìm từng ký tự
+        if (index > -1) {
           danhSachXepLoai.push(nv);
         }
       });

@@ -11,6 +11,7 @@ let { danhSach } = danhSachNV;
 const getEle = (id) => document.getElementById(id);
 const resetForm = (formId) => getEle(formId).reset();
 
+// khi load trang
 window.onload = () => {
   let data = localStorage.getItem('danhSach')
     ? JSON.parse(localStorage.getItem('danhSach'))
@@ -21,13 +22,15 @@ window.onload = () => {
   renderTable(danhSach);
 };
 
+//  nút toggle form thêm nhân viên
 getEle('btnThem').onclick = () => {
-  helper.clearTB();
+  helper.clearTB(); // xóa các thông báo cũ
   getEle('tknv').disabled = false;
   getEle('btnCapNhat').style.display = 'none';
   getEle('btnThemNV').style.display = 'inline-block';
 };
 
+// nút thêm nhân viên
 getEle('btnThemNV').onclick = () => {
   if (!validate.isValid(danhSach)) return;
   let inputs = helper.getInputValue();
@@ -39,6 +42,7 @@ getEle('btnThemNV').onclick = () => {
   CustomModal.alertSuccess('Thêm nhân viên thành công');
 };
 
+// nút xóa nhân viên
 window.btnDeleteNv = (tk) => {
   CustomModal.alertDelete(`Tài khoản ${tk} sẽ bị xóa và không thể phục hồi`).then(
     (result) => {
@@ -52,6 +56,7 @@ window.btnDeleteNv = (tk) => {
   );
 };
 
+//  nút toggle form sửa nhân viên
 window.btnEditNv = (tk) => {
   helper.clearTB();
   getEle('tknv').disabled = true;
@@ -67,6 +72,7 @@ window.btnEditNv = (tk) => {
   }
 };
 
+// nút cập nhật nhân viên
 getEle('btnCapNhat').onclick = () => {
   if (!validate.isValid(danhSach, true)) return;
   let inputs = helper.getInputValue();
@@ -77,6 +83,7 @@ getEle('btnCapNhat').onclick = () => {
   CustomModal.alertSuccess('Cập nhật thành công');
 };
 
+// nút tìm nhân viên theo xếp hạng
 window.btnTimNV = () => {
   let searchValue = getEle('searchName').value.toLowerCase().trim();
   let danhSachXepLoai = danhSachNV.timNhanVien(searchValue);
